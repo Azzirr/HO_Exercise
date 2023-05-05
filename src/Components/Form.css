@@ -1,0 +1,67 @@
+/* for validations */
+span{
+    font-size: 12px;
+    padding: 3px;
+    color: rgb(224, 22, 22);
+    display: none;
+}
+input:invalid[focused="true"] ~ span{
+    display: block;
+}
+select:invalid[focused="true"] ~ span{
+    display: block;
+}
+
+/* form appearance */
+body{
+    background: linear-gradient(90deg, rgb(81, 75, 142), rgb(122, 31, 186));
+}
+.container{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    border: 3px solid rgb(61, 22, 234);
+}
+.centerForm{
+    width: 50%;
+    margin-left: 25%;
+    text-align: center;
+}
+input{
+    padding: 10px;
+    margin: 5px;
+    width: 200px;
+    border-radius: 20px;
+}
+select{
+    padding: 10px;
+    margin: 5px;
+    width: 200px;
+    border-radius: 20px;
+
+}
+.header{
+    text-align: center;
+    font-family: 'Ubuntu Mono', monospace;
+}
+.buttonInput{
+    width: 170px;
+    height: 40px;
+    line-height: 1;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 3px solid #8C82FC;
+    color: #8C82FC;
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all .50s;
+}
+.buttonInput:hover{
+    background: #8C82FC;
+    color: #fff;
+}
