@@ -8,7 +8,7 @@ export default function Form() {
     "name": "",
     "preparation_time": "",
     "type": "",
-    "id": Number,
+    "id": crypto.randomUUID(),
   });
 
   // showing and hiding divs depended on which option is selected
@@ -56,9 +56,9 @@ export default function Form() {
     },
     sandwich: {
       slicesOfBread: 'Please type how many slices of bread you want'
-    }
+    },
   }
-
+  const [responseStatusError, setResponseStatusError] = useState('');
   const [focused, setFocused] = useState(false);
   const handleFocus = (event) => {
     setFocused(true);
@@ -70,12 +70,18 @@ export default function Form() {
     Axios.post(URL, {
       dish
     }).then(response => {
-      console.log(response.data);
+      console.log(response);
+    }).catch(error => {
+      if(error.response.status >= 400 || error.response.code <= 500){
+        setResponseStatusError('Client error response! Try again later.')
+      } else if(error.response.status >= 500 || error.response.code <= 599){
+        return setResponseStatusError('Wrong server response! Try again later or contact our support.')
+      }
     })
   }
   return (
     <div className='container'>
-      <div class="header">
+      <div className="header">
         <h1>SEND YOUR DISH</h1>
       </div>
       <form onSubmit={(event) => submitForm(event)} className='centerForm'>
@@ -158,6 +164,7 @@ export default function Form() {
         </div>
       <input type="submit" value="SUBMIT" className='buttonInput'/>
       </form>
+      <p className='responseError'>{responseStatusError}</p>
     </div>
   );
 }
