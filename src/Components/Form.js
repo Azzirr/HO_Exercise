@@ -5,14 +5,13 @@ import Axios from 'axios';
 export default function Form() {
   const URL = 'https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes';
   const [dish, setDish] = useState({
-    id: 0,
     name: "",
     preparation_time: "",
     type: "",
-    no_of_slices: Number,
-    diameter: Number,
-    spiciness_scale: Number,
-    slices_of_bread: Number,
+    no_of_slices: 0,
+    diameter: 0,
+    spiciness_scale: 0,
+    slices_of_bread: 0,
   });
 
   // showing and hiding divs depended on which option is selected
@@ -21,7 +20,7 @@ export default function Form() {
     const newDish = {...dish};
     newDish[event.target.id] = event.target.value;
     setDish(newDish);
-    console.log(newDish);
+    // console.log(newDish);
     // showing and hiding divs9
     setCurrentDiv(newDish.type);
   }
@@ -55,7 +54,7 @@ export default function Form() {
     type: 'Please choose a type of your dish',
     pizza: {
       numberOfSlices: 'Please type a number of slices. Integers only. Type between 1-16 slices.',
-      diameter: 'Please type a diameter',
+      diameter: 'Please type a diameter. Minimal value is 1.',
     },
     soup: {
       spicinesScale: 'Please type a spicines scale. Integers only. Type between 1-10.'
@@ -69,7 +68,7 @@ export default function Form() {
   function submitForm(event){
     // removing unnecessary values from object
     let dishToPost = {
-      id: dish.id,
+      id: new Date().getTime(), // I used this method because it will always give us unique value.
       name: dish.name,
       preparation_time: dish.preparation_time,
       type: dish.type,
@@ -88,7 +87,7 @@ export default function Form() {
       dishToPost
       ).then(response => {
       setResponseStatusError('Data submitted!')
-      console.log(response);
+      console.log(response.data); // I'm console log this response, because there is no information what I should do with it.
     }).catch(error => {
       if(error.response.status >= 400 || error.response.code <= 499){
         setResponseStatusError('Client error response! Try again later.')
@@ -125,7 +124,7 @@ export default function Form() {
           <div>
             <select onChange={(event) => handleDish(event)} id="type" value={dish.type} onBlur={handleFocus} focused={focused.toString()} required>
               {optionsType.map((option) => (
-                <option value={option.value} key={option.label}>{option.label}</option>
+                <option value={option.value || ''} key={option.label}>{option.label}</option>
               ))}
             </select>
           </div>
@@ -149,7 +148,7 @@ export default function Form() {
                 <div>
                   <label>Diameter</label>
                   <div>
-                    <input type="number" step="0.01" onChange={(event) => handleDish(event)} id="diameter" value={dish.diameter} onBlur={handleFocus} focused={focused.toString()} required/>
+                    <input type="number" step="0.01" onChange={(event) => handleDish(event)} id="diameter" value={dish.diameter} onBlur={handleFocus} focused={focused.toString()} min="1" required/>
                     <span>{errors.pizza.diameter}</span>
                   </div>
                 </div>
