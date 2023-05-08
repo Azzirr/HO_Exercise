@@ -127,8 +127,8 @@ export default function Form() {
                 <option value={option.value || ''} key={option.label}>{option.label}</option>
               ))}
             </select>
+            <span>{errors.type}</span>
           </div>
-        <span>{errors.type}</span>
         </div>
 
         {/* fields depending on the dish type */}
